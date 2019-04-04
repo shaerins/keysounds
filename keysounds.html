@@ -7,6 +7,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.1/howler.js" charset="utf-8"></script>
   <link rel="stylesheet" href="style.css">
   <script type="text/paperscript" canvas="myCanvas">
+
+  // assign a color and sound to each key
   var keys = {
     q: {
       color: "#800000",
@@ -71,109 +73,112 @@
     a: {
       color: "#3cb44b",
       sound: new Howl({
-        src: ["sounds/moon.mp3"]
+        src: ["sounds/pinwheel.mp3"]
       })
     },
     s: {
       color: "#28a4e3",
       sound: new Howl({
-        src: ["sounds/moon.mp3"]
+        src: ["sounds/piston-1.mp3"]
       })
     },
     d: {
       color: "#4363d8",
       sound: new Howl({
-        src: ["sounds/moon.mp3"]
+        src: ["sounds/piston-2.mp3"]
       })
     },
     f: {
       color: "#911eb4",
       sound: new Howl({
-        src: ["sounds/moon.mp3"]
+        src: ["sounds/piston-3.mp3"]
       })
     },
     g: {
       color: "#f032e6",
       sound: new Howl({
-        src: ["sounds/moon.mp3"]
+        src: ["sounds/prism-1.mp3"]
       })
     },
     h: {
       color: "#a9a9a9",
       sound: new Howl({
-        src: ["sounds/moon.mp3"]
+        src: ["sounds/prism-2.mp3"]
       })
     },
     j: {
       color: "#fabebe",
       sound: new Howl({
-        src: ["sounds/moon.mp3"]
+        src: ["sounds/prism-3.mp3"]
       })
     },
     k: {
       color: "#ffd8b1",
       sound: new Howl({
-        src: ["sounds/moon.mp3"]
+        src: ["sounds/splits.mp3"]
       })
     },
     l: {
       color: "#fffac8",
       sound: new Howl({
-        src: ["sounds/moon.mp3"]
+        src: ["sounds/squiggle.mp3"]
       })
     },
     z: {
       color: "#aaffc3",
       sound: new Howl({
-        src: ["sounds/moon.mp3"]
+        src: ["sounds/strike.mp3"]
       })
     },
     x: {
       color: "#28a4e3",
       sound: new Howl({
-        src: ["sounds/moon.mp3"]
+        src: ["sounds/suspension.mp3"]
       })
     },
     c: {
       color: "#e6beff",
       sound: new Howl({
-        src: ["sounds/moon.mp3"]
+        src: ["sounds/timer.mp3"]
       })
     },
     v: {
       color: "#aa6633",
       sound: new Howl({
-        src: ["sounds/moon.mp3"]
+        src: ["sounds/ufo.mp3"]
       })
     },
     b: {
       color: "#eedddd",
       sound: new Howl({
-        src: ["sounds/moon.mp3"]
+        src: ["sounds/veil.mp3"]
       })
     },
     n: {
       color: "#ffa5a5",
       sound: new Howl({
-        src: ["sounds/moon.mp3"]
+        src: ["sounds/wipe.mp3"]
       })
     },
     m: {
       color: "#b0cdff",
       sound: new Howl({
-        src: ["sounds/moon.mp3"]
+        src: ["sounds/zig-zag.mp3"]
       })
     }
   }
 
   var circles = [];
 
+// when a key is pressed, create random point to place circle & play corresponding key sound
   function onKeyDown(event) {
     if(keys[event.key]){
+      // creates point coordinates that are random but stay within height/width of screen
       var maxPoint = new Point(view.size.width, view.size.height);
       var randomPoint = Point.random();
       var point = maxPoint * randomPoint;
       var newCircle = new Path.Circle(point, 500);
+      // grabs color & sound from 'keys' object
       newCircle.fillColor = keys[event.key].color;
       keys[event.key].sound.play();
       circles.push(newCircle);
@@ -182,7 +187,7 @@
 
   function onFrame(event) {
     for(var i = 0; i < circles.length; i++) {
-      circles[i].fillColor.hue += 1;
+      circles[i].fillColor.hue += 1.5;
       circles[i].scale(0.9);
     }
   }
