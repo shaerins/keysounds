@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang='en' dir='ltr'>
+
+<head>
+  <meta charset='utf-8'>
+  <title>keysounds</title>
+  <script src='../paper-full.js' charset='utf-8'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.1/howler.js' charset='utf-8'></script>
+  <link rel='stylesheet' href='./styles/style.css'>
+  <script type='text/paperscript' canvas='myCanvas'>
+
+    var letters = ['q', 'w', 'e', 'r',
+      't', 'y', 'u', 'i', 'o', 'p',
+      'a', 's', 'd', 'f', 'g', 'h',
+      'j', 'k', 'l', 'z', 'x', 'c',
+      'v', 'b', 'n', 'm'];
+
+    var colors = ['#800000', '#9A6324', '#808000', '#469990',
+      '#000075', '#e6194B', '#f58231', '#ffe119', '#04f7ce',
+      '#bfef45', '#3cb44b', '#28a4e3', '#4363d8', '#911eb4',
+      '#f032e6', '#a9a9a9', '#fabebe', '#ffd8b1', '#fffac8',
+      '#aaffc3', '#28a4e3', '#e6beff', '#aa6633', '#eedddd',
+      '#ffa5a5', '#b0cdff'];
+
+    var soundFiles = ['bubbles', 'clay', 'confetti',
+      'corona', 'dotted-spiral', 'flash-1', 'flash-2',
+      'flash-3', 'glimmer', 'moon', 'pinwheel',
+      'piston-1', 'piston-2', 'piston-3', 'prism-1',
+      'prism-2', 'prism-3', 'splits', 'squiggle', 'strike',
+      'suspension', 'timer', 'ufo', 'veil', 'wipe', 'zig-zag'];
+  
+    function srcSounds(soundName) {
+      return (
+        new Howl({
+          src: ['../sounds/' + soundName + '.mp3']
+        })
+      )
+    }
+    
+    var sounds = [];
+    var keys = {};
+    
+    letters.map(function (val, i) {
+      sounds.push(srcSounds(soundFiles[i]));
+      keys[val] = {
+        color: colors[i],
+        sound: sounds[i]
+      };
+    });
+
+    var text = new PointText(view.center);
+
+    text.content = 'turn up your volume and press any key...';
+    text.style = {
+      fontFamily: 'Century Gothic',
+      fontWeight: 'bold',
+      fontSize: 20,
+      fillColor: 'white',
+      justification: 'center',
+      transition: '0.2s linear',
+    };
+    
+    var circles = [];
+    var prompt = true;
+
+    // when a key is pressed, create random point to place circle & play corresponding key sound
+    function onKeyDown(event) {
+      if (prompt) {
+        // remove center text, set prompt boolean to false
+        text.fillColor = 'rgb(0, 0, 0, 0)';
+        prompt = false;
+      }
+      if (keys[event.key]) {
+        // creates point coordinates that are random but stay within height/width of screen
+        var maxPoint = new Point(view.size.width, view.size.height);
+        var randomPoint = Point.random();
+        var point = maxPoint * randomPoint;
+        var newCircle = new Path.Circle(point, 500);
+        // grabs color & sound from 'keys' object
+        newCircle.fillColor = keys[event.key].color;
+        keys[event.key].sound.play();
+        circles.push(newCircle);
+      }
+    }
+
+    function onFrame(event) {
+      for (var i = 0; i < circles.length; i++) {
+        circles[i].fillColor.hue += 1.5;
+        circles[i].scale(0.9);
+        if (circles[i].area < 1) {
+          circles[i].remove(); // remove the circle from the canvas
+          circles.splice(i, 1); // remove the circle from the array
+        }
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <canvas id='myCanvas' resize></canvas>
+</body>
+
+</html>
