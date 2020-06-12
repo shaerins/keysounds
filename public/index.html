@@ -4,11 +4,10 @@
 <head>
   <meta charset='utf-8'>
   <title>keysounds</title>
-  <script src='../paper-full.js' charset='utf-8'></script>
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.1/howler.js' charset='utf-8'></script>
   <link rel='stylesheet' href='./styles/style.css'>
+  <script src='./paper-full.js' charset='utf-8'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.1/howler.js' charset='utf-8'></script>
   <script type='text/paperscript' canvas='myCanvas'>
-
     var letters = ['q', 'w', 'e', 'r',
       't', 'y', 'u', 'i', 'o', 'p',
       'a', 's', 'd', 'f', 'g', 'h',
@@ -32,7 +31,7 @@
     function srcSounds(soundName) {
       return (
         new Howl({
-          src: ['../sounds/' + soundName + '.mp3']
+          src: ['./sounds/' + soundName + '.mp3']
         })
       )
     }
